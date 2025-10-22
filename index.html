@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess AI - Play Against Computer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .status {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .evaluation {
+            font-size: 1em;
+            color: #666;
+        }
+
+        #chessboard {
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0;
+            border: 3px solid #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .square {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .square.light {
+            background-color: #f0d9b5;
+        }
+
+        .square.dark {
+            background-color: #b58863;
+        }
+
+        .square.selected {
+            background-color: #baca44;
+        }
+
+        .square.valid-move {
+            background-color: #baca44;
+        }
+
+        .square.last-move {
+            background-color: #cdd26a;
+        }
+
+        .square:hover {
+            opacity: 0.8;
+        }
+
+        .piece {
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .difficulty-selector {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .difficulty-selector label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .difficulty-selector select {
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: 2px solid #667eea;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .thinking {
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .square {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>♔ Chess AI ♚</h1>
+        
+        <div class="info-panel">
+            <div class="status" id="status">White's Turn</div>
+            <div class="evaluation" id="evaluation">Eval: 0.00</div>
+        </div>
+
+        <div id="chessboard"></div>
+
+        <div class="controls">
+            <button onclick="newGame()">New Game</button>
+            <button onclick="undoMove()">Undo Move</button>
+        </div>
+
+        <div class="difficulty-selector">
+            <label for="difficulty">AI Difficulty:</label>
+            <select id="difficulty" onchange="changeDifficulty()">
+                <option value="1">Easy (Depth 1)</option>
+                <option value="2">Medium (Depth 2)</option>
+                <option value="3" selected>Hard (Depth 3)</option>
+                <option value="4">Expert (Depth 4)</option>
+                <option value="5">Master (Depth 5)</option>
+            </select>
+        </div>
+
+        <div class="thinking" id="thinking"></div>
+    </div>
+
+    <script src="chess.js"></script>
+</body>
+</html>
