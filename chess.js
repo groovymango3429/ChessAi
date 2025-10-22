@@ -77,7 +77,7 @@ let selectedSquare = null;
 let validMoves = [];
 let moveHistory = [];
 let lastMove = null;
-let aiDepth = 3;
+let aiDepth = 5;
 let gameOver = false;
 
 // Unicode chess pieces
